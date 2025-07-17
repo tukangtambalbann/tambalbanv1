@@ -64,8 +64,6 @@ while true; do
         continue
     fi
 
-    # Menggunakan curl untuk memeriksa apakah client_name ada dalam file permission.txt
-    # UPDATED: URL changed from tukangtambalbann/tambalbanv1 to tukangtambalbann/tambalban
     permission_file=$(curl -s https://raw.githubusercontent.com/tukangtambalbann/tambalban/main/daftar)
     
     # Mengambil IP_VPS juga untuk validasi di izin.txt
@@ -107,8 +105,8 @@ sleep 2
 clear
 
 # --- Detail API Bot Telegram ---
-TOKEN="7139196395:AAH4M40Xn1h2R7p09lG0Hl-aGv52Gq_3J7s"
-CHAT_ID="-1002075726210"
+TOKEN=""
+CHAT_ID=""
 
 # --- Fungsi untuk Mengirim Pesan ke Telegram ---
 send_telegram_message() {

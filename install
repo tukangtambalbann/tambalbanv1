@@ -30,7 +30,6 @@ red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
 tyblue='\e[1;36m'
-# GREEN dan CYAN sudah didefinisikan di atas, jadi tidak perlu duplikasi.
 export PINK='\033[0;35m'
 export YELLOW='\033[0;33m'
 
@@ -66,7 +65,7 @@ while true; do
     fi
 
     # Menggunakan curl untuk memeriksa apakah client_name ada dalam file permission.txt
-    permission_file=$(curl -s https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
+    permission_file=$(curl -s https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/daftar)
     
     # Mengambil IP_VPS juga untuk validasi di izin.txt
     IP_VPS=$(curl -s https://ipinfo.io/ip) # Pastikan ini mengambil IP publik
@@ -107,14 +106,14 @@ sleep 2
 clear
 
 # --- Detail API Bot Telegram ---
-TOKEN=""
-CHAT_ID=""
+TOKEN="7139196395:AAH4M40Xn1h2R7p09lG0Hl-aGv52Gq_3J7s"
+CHAT_ID="-1002075726210"
 
 # --- Fungsi untuk Mengirim Pesan ke Telegram ---
 send_telegram_message() {
     MESSAGE=$1
     BUTTON1_URL="https://t.me/TUKANGTAMBALBAN"
-    BUTTON2_URL="https://wa.me/-"
+    BUTTON2_URL="https://wa.me/6285743478950"
     BUTTON_TEXT1="Telegram 😎"
     BUTTON_TEXT2="Whatsapp 🐳"
 
@@ -172,7 +171,7 @@ clear
 
 # --- Input Nama Pengguna ---
 echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e "${BIBlue}│ ${BGCOLOR}      MASUKKAN NAMA KAMU           ${NC}${BIBlue} │${NC}"
+echo -e "${BIBlue}│ ${BGCOLOR}      MASUKKAN NAMA KAMU         ${NC}${BIBlue} │${NC}"
 echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
 until [[ $name =~ ^[a-zA-Z0-9_.-]+$ ]]; do
@@ -295,7 +294,7 @@ apt-get purge apparmor apparmor-utils -y >/dev/null 2>&1
 clear
 
 # --- Instalasi Tools Awal ---
-wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/TOOLS/tools.sh -O tools.sh &> /dev/null
+wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/TOOLS/tools.sh -O tools.sh &> /dev/null
 chmod +x tools.sh
 bash tools.sh
 start=$(date +%s)
@@ -303,21 +302,22 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
 # --- Update dan Instal Dependensi Umum untuk Ubuntu 24.04 ---
 echo -e "${GREEN}Memperbarui sistem dan menginstal dependensi...${NC}"
+# FIXED: Removed redundant 'apt' and double '-y'
 apt update -y && apt upgrade -y
-apt install git curl python3 apt  figlet python3-pip apt-transport-https ca-certificates software-properties-common ntpdate wget netcat-openbsd ncurses-bin chrony jq -y
--y
+apt install git curl python3 figlet python3-pip apt-transport-https ca-certificates software-properties-common ntpdate wget netcat-openbsd ncurses-bin chrony jq -y
+
 wget https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz -O /tmp/grpcurl.tar.gz && tar -xzf /tmp/grpcurl.tar.gz -C /tmp/ && sudo mv /tmp/grpcurl /usr/local/bin/ && sudo chmod +x /usr/local/bin/grpcurl
 wget https://raw.githubusercontent.com/XTLS/Xray-core/main/app/stats/command/command.proto -O stats.proto
 
 cd
 clear
-wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/TOOLS/limit.sh -O limit.sh && chmod +x limit.sh && ./limit.sh
+wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/TOOLS/limit.sh -O limit.sh && chmod +x limit.sh && ./limit.sh
 clear
 
 # --- Fungsi Instalasi Modul ---
 res3() {
     echo -e "${GREEN}    Memulai instalasi SSH WS / OpenVPN...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/ssh-vpn.sh -O ssh-vpn.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/SYSTEM/ssh-vpn.sh -O ssh-vpn.sh
     chmod +x ssh-vpn.sh
     ./ssh-vpn.sh
     sudo systemctl enable --now chrony.service
@@ -327,7 +327,7 @@ res3() {
 
 res4() {
     echo -e "${GREEN}    Memulai instalasi XRAY...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/ins-xray.sh -O ins-xray.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/SYSTEM/ins-xray.sh -O ins-xray.sh
     chmod +x ins-xray.sh
     ./ins-xray.sh
     clear
@@ -335,7 +335,7 @@ res4() {
 
 res5() {
     echo -e "${GREEN}    Memulai instalasi WEBSOCKET SSH...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/WEBSOCKET/insshws.sh -O insshws.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/WEBSOCKET/insshws.sh -O insshws.sh
     chmod +x insshws.sh
     ./insshws.sh
     clear
@@ -343,7 +343,7 @@ res5() {
 
 res6() {
     echo -e "${GREEN}    Memulai instalasi BACKUP MENU...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/set-br.sh -O set-br.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/SYSTEM/set-br.sh -O set-br.sh
     chmod +x set-br.sh
     ./set-br.sh
     clear
@@ -351,7 +351,7 @@ res6() {
 
 res7() {
     echo -e "${GREEN}    Memulai instalasi OHP...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/WEBSOCKET/ohp.sh -O ohp.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/WEBSOCKET/ohp.sh -O ohp.sh
     chmod +x ohp.sh
     ./ohp.sh
     clear
@@ -359,7 +359,7 @@ res7() {
 
 res8() {
     echo -e "${GREEN}    Memulai pengunduhan EXTRA MENU...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/update.sh -O update.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/menu/update.sh -O update.sh
     chmod +x update.sh
     ./update.sh
     clear
@@ -367,7 +367,7 @@ res8() {
 
 res9() {
     echo -e "${GREEN}    Memulai pengunduhan SLOWDNS...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/slowdns.sh -O slowdns.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/SYSTEM/slowdns.sh -O slowdns.sh
     chmod +x slowdns.sh
     ./slowdns.sh
     clear
@@ -375,7 +375,7 @@ res9() {
 
 res10() {
     echo -e "${GREEN}    Memulai pengunduhan UDP CUSTOM...${NC}"
-    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/udp-custom.sh -O udp-custom.sh
+    wget https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/SYSTEM/udp-custom.sh -O udp-custom.sh
     chmod +x udp-custom.sh
     bash udp-custom.sh
     clear
@@ -397,54 +397,54 @@ res11() {
     sudo chown root:root /etc/dropbear/dropbear_rsa_host_key
     sudo systemctl daemon-reload
     sudo systemctl restart dropbear
-     sudo systemctl enable nginx
+    sudo systemctl enable nginx
     clear
 }
 
 # --- Proses Instalasi TUKANGTAMBALBAN ---
 function SKT4100(){
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED SSH WS / OPENVPN    ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED SSH WS / OPENVPN     ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res3
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}        PROCESS INSTALLED XRAY          ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}        PROCESS INSTALLED XRAY           ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res4
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED WEBSOCKET SSH   ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED WEBSOCKET SSH     ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res5
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED BACKUP MENU     ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}    PROCESS INSTALLED BACKUP MENU       ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res6
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}        PROCESS INSTALLED OHP         ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}        PROCESS INSTALLED OHP            ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res7
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD EXTRA MENU           ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD EXTRA MENU              ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res8
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD SLOWDNS              ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD SLOWDNS                 ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res9
 
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD UDP COSTUM           ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}        DOWNLOAD UDP COSTUM              ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res10
     
     echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-    echo -e "${BIBlue}│ ${BGCOLOR}    CONFIGURING DROPBEAR              ${NC}${BIBlue} │${NC}"
+    echo -e "${BIBlue}│ ${BGCOLOR}    CONFIGURING DROPBEAR                 ${NC}${BIBlue} │${NC}"
     echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
     res11
 }
@@ -480,7 +480,7 @@ if [ ! -f "/etc/log-create-user.log" ]; then
 fi
 history -c
 
-serverV=$( curl -sS https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/TOOLS/versi )
+serverV=$( curl -sS https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/main/TOOLS/versi )
 echo "$serverV" > /opt/.ver
 
 aureb=$(cat /home/re_otm)
@@ -497,16 +497,18 @@ cd
 curl -sS ifconfig.me > /etc/myipvps
 curl -s ipinfo.io/city?token=75082b4831f909 >> /etc/xray/city
 curl -s ipinfo.io/org?token=75082b4831f909 | cut -d " " -f 2-10 >> /etc/xray/isp
-rm /root/setup.sh >/dev/null 2>&1
-rm /root/slhost.sh >/dev/null 2>&1
-rm /root/ssh-vpn.sh >/dev/null 2>&1
-rm /root/ins-xray.sh >/dev/null 2>&1
-rm /root/insshws.sh >/dev/null 2>&1
-rm /root/set-br.sh >/dev/null 2>&1
-rm /root/ohp.sh >/dev/null 2>&1
-rm /root/update.sh >/dev/null 2>&1
-rm /root/slowdns.sh >/dev/null 2>&1
-rm /root/udp-custom.sh >/dev/null 2>&1 # Hapus file udp-custom.sh setelah digunakan
+# FIXED: Replaced dangerous 'rm -rf *' with specific file removals
+rm -f /root/setup.sh
+rm -f /root/slhost.sh
+rm -f /root/ssh-vpn.sh
+rm -f /root/ins-xray.sh
+rm -f /root/insshws.sh
+rm -f /root/set-br.sh
+rm -f /root/ohp.sh
+rm -f /root/update.sh
+rm -f /root/slowdns.sh
+rm -f /root/udp-custom.sh
+rm -f /root/tools.sh # Add tools.sh to cleanup list
 
 # --- Pembuatan Direktori Bot dan Limit ---
 rm -rf /etc/bot
@@ -536,7 +538,7 @@ cd
 # --- Kirim Pesan Sukses ke Telegram ---
 IPVPS=$(curl -s https://ipinfo.io/ip)
 HOSTNAME=$(hostname)
-CLIENT=$(client_name)
+CLIENT="$client_name"
 OS=$(lsb_release -d | awk '{print $2,$3,$4}')
 ISP=$(curl -s https://ipinfo.io/org | awk '{print $2,$3,$4}')
 REGION=$(curl -s ipinfo.io/region)
@@ -557,7 +559,7 @@ MESSAGE="\`\`\`
 ❖ Waktu         : $TIME
 ❖ Tanggal       : $DATE
 ❖ HOSTNAME      : $HOSTNAME
-❖ CLIENT        : $client_name
+❖ CLIENT        : $CLIENT
 ❖ Domain        : $DOMAIN
 ❏━━━━━━━━***************━━━━━━━━━❏
 👑 Dev https://t.me/TUKANGTAMBALBAN 👑
@@ -571,12 +573,12 @@ sleep 2
 # --- Selesai Instalasi dan Reboot ---
 echo -e "${BIBlue}════════════════════════════════════════${NC}"
 echo -e "${BIBlue} Script telah berhasil di install"
-rm -rf *
-rm /root/home
+# FIXED: Removed dangerous 'rm -rf *'
+rm -f /root/home # Assuming /root/home is a file. If it's a directory, this will fail.
 echo -e ""
 read -rp "[\e[1;31mWARNING\e[0m] Reboot sekali biar ga error lur [default y](y/n)? " -e answer
 if [[ "$answer" =~ ^[Nn]$ ]]; then
     exit 0
 else
-    cat /dev/null > ~/.bash_history && history -c && reboot
+    cat /dev/null > ~/.bash_history && history -c && sudo reboot
 fi

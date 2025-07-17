@@ -64,7 +64,7 @@ while true; do
         continue
     fi
 
-    permission_file=$(curl -s https://raw.githubusercontent.com/tukangtambalbann/tambalban/main/daftar)
+     permission_file=$(curl -s https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
     
     # Mengambil IP_VPS juga untuk validasi di izin.txt
     IP_VPS=$(curl -s https://ipinfo.io/ip) # Pastikan ini mengambil IP publik

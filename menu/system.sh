@@ -43,7 +43,7 @@ check_ip_and_get_info() {
 # =============================================
 
 # Ambil data dari GitHub dengan timeout
-permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/Ilham24022001/ijin/refs/heads/main/ijin)
+permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
 
 # Validasi file permission
 if [ -z "$permission_file" ]; then
@@ -133,7 +133,7 @@ show_options() {
 show_footer() {
     local author=$(cat "$AUTHOR_FILE" 2>/dev/null || echo "Unknown")
     echo -e " ${COLOR1}╔══════════════════════ ${WH}CREDIT BY${NC} ${COLOR1}═══════════════════╗${NC}"
-    echo -e " ${COLOR1}║                  ${WH}• HOKAGE LEGEND STORE •                ${COLOR1}║${NC}"
+    echo -e " ${COLOR1}║                  ${WH}• TUKANGTAMBALBAN STORE •                ${COLOR1}║${NC}"
     echo -e " ${COLOR1}╚════════════════════════════════════════════════════╝${NC}"
 }
 
@@ -204,7 +204,7 @@ function domain() {
 
     # Fungsi instalasi slowdns
     install_slowdns() {
-        local script_url="https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/SLOWDNS/installsl.sh"
+        local script_url="https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/installsl.sh"
         local output_file="installsl.sh"
         
         echo -e "${COLOR1}Mengunduh SlowDNS...${NC}"
@@ -463,7 +463,7 @@ case $opt in
 06 |7) clear ; certv2ray ;; 
 07 |8) clear ; gotopp ;; 
 09 |9) clear ; check-port ;; 
-10 |10) clear ; wget -q https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/rebuildpepesmenu && bash rebuildpepesmenu ;; 
+10 |10) clear ; wget -q https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/rebuildpepesmenu && bash rebuildpepesmenu ;; 
 00 |0) clear ; menu ;; 
 *) echo -e "" ; echo "Anda salah tekan" ; sleep 1 ; system ;;
 esac

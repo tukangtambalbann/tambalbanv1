@@ -1,7 +1,7 @@
-## GENOM SCRIPT VPS INSTALL
+## TUKANGTAMBALBANV1 SCRIPT VPS INSTALL
 
 ```
- wget -q https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/install && chmod +x install  && ./install 
+ wget -q https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/install && chmod +x install  && ./install 
 ```
 
 ==================================================================================================================
@@ -16,7 +16,7 @@
 ```
 cd root
 rm update.sh
-wget https://github.com/hokagelegend9999/genom/raw/refs/heads/main/menu/update.sh && chmod +x update.sh && ./update.sh
+wget https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/update.sh && chmod +x update.sh && ./update.sh
 ```
 
 ================================================================================================

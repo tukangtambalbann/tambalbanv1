@@ -3,7 +3,7 @@
 
 
 
-wget -O /usr/local/bin/ws-dropbear https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/WEBSOCKET/ws-dropbear
+wget -O /usr/local/bin/ws-dropbear https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/WEBSOCKET/ws-dropbear
 chmod +x /usr/local/bin/ws-dropbear
 
 # Installing Service
@@ -31,14 +31,14 @@ sudo systemctl restart dropbear.service
 sudo systemctl enable dropbear.service
 sudo systemctl restart ws-nontls.service
 
-wget -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/WEBSOCKET/ws-ovpn.py
+wget -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/WEBSOCKET/ws-ovpn.py
 chmod +x /usr/local/bin/ws-ovpn
 
 # Installing Service
 cat > /etc/systemd/system/ws-ovpn.service << END
 [Unit]
-Description=Python Proxy Mod By HOKAGE LEGEND
-Documentation=https://t.me/hokagelegend1
+Description=Python Proxy Mod By TUKANGTAMBALBAN
+Documentation=https://t.me/TUKANGTAMBALBAN
 After=network.target nss-lookup.target
 
 [Service]
@@ -58,14 +58,14 @@ systemctl daemon-reload
 systemctl enable ws-ovpn
 systemctl restart ws-ovpn
 
-wget -O /usr/local/bin/ws-stunnel https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/WEBSOCKET/ws-stunnel
+wget -O /usr/local/bin/ws-stunnel https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/WEBSOCKET/ws-stunnel
 chmod +x /usr/local/bin/ws-stunnel
 
 # Installing Service
 cat > /etc/systemd/system/ws-stunnel.service << END
 [Unit]
-Description=Python Proxy Mod By HOKAGE LEGEND
-Documentation=https://t.me/hokagelegend1
+Description=Python Proxy Mod By TUKANGTAMBALBAN
+Documentation=https://t.me/TUKANGTAMBALBAN
 After=network.target nss-lookup.target
 
 [Service]

@@ -55,10 +55,10 @@ service sshd restart
 #konfigurasi slowdns
 rm -rf /etc/slowdns
 mkdir -m 777 /etc/slowdns
-wget -q -O /etc/slowdns/server.key "https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/SLOWDNS/server.key"
-wget -q -O /etc/slowdns/server.pub "https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/SLOWDNS/server.pub"
-wget -q -O /etc/slowdns/sldns-server "https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/SLOWDNS/sldns-server"
-wget -q -O /etc/slowdns/sldns-client "https://raw.githubusercontent.com/Ilham24022001/Gantengz/refs/heads/main/SLOWDNS/sldns-client"
+wget -q -O /etc/slowdns/server.key "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/server.key"
+wget -q -O /etc/slowdns/server.pub "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/server.pub"
+wget -q -O /etc/slowdns/sldns-server "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/sldns-server"
+wget -q -O /etc/slowdns/sldns-client "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/sldns-client"
 cd
 chmod +x /etc/slowdns/server.key
 chmod +x /etc/slowdns/server.pub
@@ -70,7 +70,7 @@ cd
 cat > /etc/systemd/system/client-sldns.service << END
 [Unit]
 Description=Client SlowDNS By Hokage
-Documentation=https://t.me/hokagelegend1
+Documentation=https://t.me/TUKANGTAMBALBAN
 After=network.target nss-lookup.target
 
 [Service]
@@ -90,8 +90,8 @@ cd
 #install server-sldns.service
 cat > /etc/systemd/system/server-sldns.service << END
 [Unit]
-Description=Server SlowDNS By Hokage Legend
-Documentation=https://t.me/hokagelegend1
+Description=Server SlowDNS By TUKANGTAMBALBAN
+Documentation=https://t.me/TUKANGTAMBALBAN
 After=network.target nss-lookup.target
 
 [Service]

@@ -43,7 +43,7 @@ check_ip_and_get_info() {
 # =============================================
 
 # Ambil data dari GitHub dengan timeout
-permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/Ilham24022001/ijin/refs/heads/main/ijin)
+permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
 
 # Validasi file permission
 if [ -z "$permission_file" ]; then
@@ -73,7 +73,7 @@ if check_ip_and_get_info "$IP_VPS"; then
     fi
 else
     echo -e "${RED}❌ IP tidak terdaftar!${NC}"
-    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @amganteng ✦ 」${NC}"
+    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @TUKANGTAMBALBAN ✦ 」${NC}"
     exit 1
 fi
 

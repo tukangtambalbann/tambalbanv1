@@ -1,5 +1,5 @@
 #!/bin/bash
-# Mod By SKT AIO VPN 
+# Mod By TUKANGTAMBAL BAN 
 
 # By SKT AIO
 # ==================================================

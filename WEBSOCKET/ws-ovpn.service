@@ -1,6 +1,6 @@
 [Unit]
-Description=Python Proxy Mod By TUKANGTAMBALBAN
-Documentation=https://t.me/TUKANGTAMBALBAN
+Description=Python Proxy Mod By TUKANGTAMBAL BAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]

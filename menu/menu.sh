@@ -10,7 +10,7 @@ export YELLOW='\033[0;33m'
 export BLUE='\033[0;34m'
 export CYAN='\033[0;36m'
 export NC='\033[0m'
-
+export ORANGE='\033[0;91m'
 # =============================================
 #          [ Fungsi Pengecekan IP ]
 check_ip_and_get_info() {
@@ -41,7 +41,7 @@ check_ip_and_get_info() {
 # =============================================
 
 # Ambil data dari GitHub dengan timeout
-permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
+permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com//tukangtambalbann/tambalban/refs/heads/main/daftar)
 
 # Validasi file permission
 if [ -z "$permission_file" ]; then
@@ -71,7 +71,7 @@ if check_ip_and_get_info "$IP_VPS"; then
     fi
 else
     echo -e "${RED}❌ IP tidak terdaftar!${NC}"
-    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @TUKANG TAMBAL BAN ✦ 」${NC}"
+    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @TUKANGTAMBAL BAN ✦ 」${NC}"
     exit 1
 fi
 
@@ -337,7 +337,7 @@ clear
 clear && clear && clear
 clear;clear;clear
 echo -e "$COLOR1╭═══════════════════════════════════════════════════╮${NC}"
-echo -e "$COLOR1│${NC} ${COLBG1}         ${WH}• AM GANTENG VPS PREMIUM •             ${NC} $COLOR1│ $NC"
+echo -e "$COLOR1│${NC} ${COLBG1}            ${WH}• TUKANGTAMBAL BAN PREMIUM •            ${NC} $COLOR1│ $NC"
 echo -e "$COLOR1╰═══════════════════════════════════════════════════╯${NC}"
 echo -e "$COLOR1╭═══════════════════════════════════════════════════╮${NC}"
 echo -e "$COLOR1│ $NC${WH}❈ System OS          ${COLOR1}: ${WH}$MODEL2"
@@ -367,6 +367,11 @@ echo -e "$COLOR1│ ${WH}[${COLOR1}02${WH}]${NC} ${COLOR1}• ${WH}VMESS    ${WH
 echo -e "$COLOR1│ ${WH}[${COLOR1}03${WH}]${NC} ${COLOR1}• ${WH}VLESS    ${WH}[${COLOR1}Menu${WH}]     ${WH}[${COLOR1}08${WH}]${NC} ${COLOR1}• ${WH}REBOOT   ${WH}[${COLOR1}Menu${WH}]$COLOR1 │ $NC"
 echo -e "$COLOR1│ ${WH}[${COLOR1}04${WH}]${NC} ${COLOR1}• ${WH}TRJAN    ${WH}[${COLOR1}Menu${WH}]     ${WH}[${COLOR1}09${WH}]${NC} ${COLOR1}• ${WH}UPDATE   ${WH}[${COLOR1}Menu${WH}]$COLOR1 │ $NC"
 echo -e "$COLOR1│ ${WH}[${COLOR1}05${WH}]${NC} ${COLOR1}• ${WH}BACKUP   ${WH}[${COLOR1}Menu${WH}]     ${WH}[${COLOR1}10${WH}]${NC} ${COLOR1}• ${WH}SETTING  ${WH}[${COLOR1}Menu${WH}]$COLOR1 │ $NC"
+echo -e "$COLOR1│                                                   $COLOR1│ $NC"
+echo -e "${RED}╭═══════${ORANGE}══════ • ${YELLOW}CHECK USER ONLINE${GREEN} • ${CYAN}═══════════════╮${NC}"
+echo -e "${RED}│PILIH NOMOR${NC} ${YELLOW}[12] ${GREEN}🔍 MELIHAT USER ONLINE STATUS USER${NC}│ "
+echo -e "${CYAN}╰══${GREEN}==================${YELLOW}══=======${ORANGE}══════════════════════${RED}╯${NC}"
+echo -e "$COLOR1│                                                   $COLOR1│ $NC"
 echo -e "$COLOR1╰═══════════════════════════════════════════════════╯${NC}"
 echo -e "$COLOR1╭═══════════════════════════════════════════════════╮${NC}"
 echo -e "$COLOR1│ ${WH}Traffic${NC}      ${WH}Today     Yesterday       Month       ${NC}"
@@ -374,8 +379,8 @@ echo -e "$COLOR1│ ${COLOR1}Total${NC}    ${COLOR1}  $todayd $today_v    $yeste
 echo -e "$COLOR1╰═══════════════════════════════════════════════════╯${NC}"
 
 echo -e "$COLOR1╭═══════════════════════════════════════════════════╮${NC}"
-echo -e "$COLOR1│ $NC ${WH}My Love       ${COLOR1}: ${WH}SELMA MULIATI${NC}$COLOR1"
-echo -e "$COLOR1│ $NC ${WH}Developer     ${COLOR1}: ${WH}AM GANTENG${NC}$COLOR1"
+echo -e "$COLOR1│ $NC ${WH}Versi Script  ${COLOR1}: ${WH}$(cat /opt/.ver) Latest Version${NC}$COLOR1"
+echo -e "$COLOR1│ $NC ${WH}Author        ${COLOR1}: ${WH}TUKANGTAMBAL BAN STORE${NC}$COLOR1"
 echo -e "$COLOR1│ $NC ${WH}Client        ${COLOR1}: ${WH}$client_name${NC}"
 echo -e "$COLOR1│ $NC ${WH}Sisa Hari     ${COLOR1}: ${WH}$days_remaining hari${NC}"
 echo -e "$COLOR1│ $NC ${WH}Expire Date   ${COLOR1}: ${WH}$exp_date${NC}"

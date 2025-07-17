@@ -1,74 +1,134 @@
 #!/bin/bash
 
-# ===================================================================
-# Skrip Cek Penggunaan User Xray - Versi 6 (Semua Protokol)
-# - Menampilkan pengguna VLESS, VMess, Trojan yang memiliki 'email'
-# Oleh: Gemini
-# ===================================================================
+# ========================
+# Skrip Cek Penggunaan Kuota Xray - Versi Final Diperbaiki
+# ========================
 
-# --- Konfigurasi dan Variabel Warna ---
-CONFIG_FILE="/etc/xray/config.json"
-LOG_FILE="/var/log/xray/access.log"
-API_PORT="10085"
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-RED='\033[0;31m'
-NC='\033[0m'
-
-# --- Pastikan prasyarat terinstal ---
-if ! command -v jq &> /dev/null || ! command -v bc &> /dev/null; then
-    echo -e "${RED}Error: 'jq' atau 'bc' tidak terinstal.${NC}"
-    echo "Silakan instal dengan: apt update && apt install jq bc -y"
-    exit 1
-fi
-
-# --- Pastikan file-file yang dibutuhkan ada ---
-if [ ! -f "$CONFIG_FILE" ]; then echo -e "${RED}Error: File config '$CONFIG_FILE' tidak ditemukan.${NC}"; exit 1; fi
-if [ ! -f "$LOG_FILE" ]; then echo -e "${RED}Error: File log '$LOG_FILE' tidak ditemukan.${NC}"; exit 1; fi
-
-# --- Fungsi untuk mengubah byte menjadi format yang mudah dibaca ---
-format_bytes() {
-    local bytes=$1
-    if (( $(echo "$bytes < 1024" | bc -l) )); then
-        echo "${bytes} B"
-    elif (( $(echo "$bytes < 1048576" | bc -l) )); then
-        printf "%.2f KB\n" $(echo "scale=2; $bytes/1024" | bc)
-    elif (( $(echo "$bytes < 1073741824" | bc -l) )); then
-        printf "%.2f MB\n" $(echo "scale=2; $bytes/1048576" | bc)
+# === Fungsi pewarnaan dengan padding agar kolom tetap rapi ===
+pad_and_color() {
+    # $1 = text, $2 = width, $3 = fg color, $4 = blink (optional)
+    text="$1"
+    width="$2"
+    fgcolor="$3"
+    blink="$4"
+    out=$(printf "%-${width}s" "$text")
+    if [ -n "$blink" ]; then
+        printf "$blink$fgcolor%s\e[0m" "$out"
     else
-        printf "%.2f GB\n" $(echo "scale=2; $bytes/1073741824" | bc)
+        printf "$fgcolor%s\e[0m" "$out"
     fi
 }
 
-# --- Header ---
-clear
-echo -e "${CYAN}=============================================${NC}"
-echo -e "         ${YELLOW}PEMAKAIAN KUOTA SEMUA PENGGUNA XRAY${NC}"
-echo -e "${CYAN}=============================================${NC}"
+# Fungsi ambil jumlah IP unik login user
+get_ip_count() {
+    # Menggunakan grep -c untuk menghitung baris yang cocok, lebih efisien
+    grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}" <<< "$(grep "email: $1" "$LOG_FILE" | grep -w "accepted")" | sort -u | wc -l
+}
 
-# --- Logika Utama ---
-# MODIFIKASI: Menghapus filter 'select(.protocol=="trojan")' untuk mengambil semua user
-USERS=$(grep -v '^[[:space:]]*#' "$CONFIG_FILE" | \
-        jq -r '.inbounds[].settings.clients[]?.email | select(.!=null)' | \
-        sort -u)
+# Fungsi hitung kuota harian user (hari ini)
+get_today_usage() {
+    # $1 = username
+    # Diperbaiki agar lebih efisien, hanya grep sekali untuk hari ini
+    local user="$1"
+    local today=$(date "+%Y-%m-%d")
+    grep "$today" "$LOG_FILE" | grep "email: $user" | grep -w "accepted" | grep -oP '(uplink|downlink)=([0-9]+)' | grep -oP '[0-9]+' | awk '{s+=$1}END{print s+0}'
+}
+
+# Fungsi format bytes
+format_bytes() {
+    local bytes=$1
+    if (( bytes < 1024 )); then
+        printf "%7s" "$bytes B"
+    elif (( bytes < 1048576 )); then
+        printf "%7.2f KB" "$(echo "scale=2; $bytes/1024" | bc)"
+    elif (( bytes < 1073741824 )); then
+        printf "%7.2f MB" "$(echo "scale=2; $bytes/1073741824" | bc)"
+    else
+        printf "%7.2f GB" "$(echo "scale=2; $bytes/1073741824" | bc)"
+    fi
+}
+
+# Variabel Konfigurasi
+CONFIG_FILE="/etc/xray/config.json"
+LOG_FILE="/var/log/xray/access.log"
+API_PORT="10085"
+STATS_DIR="/var/lib/xray-stats"
+RECENT_LOG_LINES_FOR_ONLINE_STATUS=200
+
+# [PERBAIKAN] Pastikan direktori untuk menyimpan statistik ada
+mkdir -p "$STATS_DIR"
+
+# Ambil daftar user/email dari config.json
+USERS=$(grep -oP '"email"\s*:\s*"\K[^"]+' "$CONFIG_FILE" | sort -u)
 
 if [ -z "$USERS" ]; then
-    echo "Tidak ada pengguna dengan 'email' yang ditemukan di konfigurasi."
+    echo "Tidak ada pengguna yang ditemukan di konfigurasi."
     exit 0
 fi
 
-for user in $USERS; do
-    # 1. Ambil data penggunaan dari API
-    uplink_raw=$(xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>uplink" 2>/dev/null | jq -r '.stat.value')
-    downlink_raw=$(xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>downlink" 2>/dev/null | jq -r '.stat.value')
-    uplink=${uplink_raw:-0}
-    downlink=${downlink_raw:-0}
-    total_usage=$((uplink + downlink))
+# Header
+clear
+echo "    __  ______  __ __ ___   ____________  "
+echo "   / / / / __ \/ //_//   | / ____/ ____/   "
+echo "  / /_/ / / / / ,<  / /| |/ / __/ __/      "
+echo " / __  / /_/ / /| |/ ___ / /_/ / /___      "
+echo "/_/ /_/\____/_/ |_/_/  |_\____/_____/      "
+echo ""
+echo "===================================================="
+echo "        PEMAKAIAN KUOTA PENGGUNA XRAY HARIAN        "
+echo "===================================================="
+echo "Last Update: $(date)"
+echo ""
 
-    # 2. Hitung IP unik dari log akses
-    ip_count=$(grep "email: ${user}" "$LOG_FILE" | grep "accepted" | awk '{print $4}' | cut -d: -f2 | sort -u | wc -l)
+# Header tabel rapi
+border="+-----------------+-------------------------------+-----------+-------------------+-------------------+"
+printf "%s\n" "$border"
+printf "| \e[1;97;44m%-15s\e[0m | \e[1;97;42m%-29s\e[0m | \e[1;30;106m%-9s\e[0m | \e[1;30;103m%-17s\e[0m | \e[1;97;45m%-17s\e[0m |\n" \
+    "USERNAME" "STATUS" "JUMLAH IP" "KUOTA HARI INI" "TOTAL PENGGUNAAN"
+printf "%s\n" "$border"
+
+for user in $USERS; do
+    stat_file="${STATS_DIR}/${user}.log"
+    # Ambil statistik total
+    uplink_raw=$(xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>uplink" 2>/dev/null | grep -oP '"value": "\K[0-9]+' || echo 0)
+    downlink_raw=$(xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>downlink" 2>/dev/null | grep -oP '"value": "\K[0-9]+' || echo 0)
+    current_usage=$(( ${uplink_raw:-0} + ${downlink_raw:-0} ))
+    previous_total=$(cat "$stat_file" 2>/dev/null || echo 0)
+    new_total_usage=$(( previous_total + current_usage ))
+    echo "$new_total_usage" > "$stat_file"
+    xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>uplink" -reset > /dev/null 2>&1
+    xray api stats --server=127.0.0.1:${API_PORT} -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+
+    # Cek status online
+    last_ip=""
+    line=$(tail -n "$RECENT_LOG_LINES_FOR_ONLINE_STATUS" "$LOG_FILE" | grep "email: ${user}" | grep -w "accepted" | tail -n 1)
+    if [ -n "$line" ]; then
+        ip=$(echo "$line" | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}" | head -n 1)
+        [ -n "$ip" ] && last_ip="$ip"
+    fi
+
+    if [ -n "$last_ip" ]; then
+        status_text="Online ($last_ip)"
+        status_colored=$(pad_and_color "$status_text" 29 "\e[1;32m" "\e[5m") # Hijau Terang + Blink
+    else
+        status_text="Offline"
+        status_colored=$(pad_and_color "$status_text" 29 "\e[1;31m") # Merah Terang
+    fi
+    user_colored=$(pad_and_color "$user" 15 "\e[1;34m") # Biru Terang
+    total_usage_formatted=$(format_bytes $new_total_usage)
+    tu_colored=$(pad_and_color "$total_usage_formatted" 17 "\e[1;35m") # Magenta Terang
+    ip_count=$(get_ip_count "$user")
+    ip_count_colored=$(pad_and_color "$ip_count" 9 "\e[1;36m") # Cyan Terang
     
-    # 3. Menampilkan hasil
-    echo -e "USERNAME : ${GREEN}${user}${NC}\nIP LOGIN : ${YELLOW}${ip_count}${NC}\nUSAGE    : ${YELLOW}$(format_bytes $total_usage)${NC}\n${CYAN}---------------------------------------------${NC}"
+    # Hitung kuota hari ini dari log
+    today_usage=$(get_today_usage "$user")
+    today_colored=$(pad_and_color "$(format_bytes $today_usage)" 17 "\e[1;33m") # Kuning Terang
+
+    printf "| %s | %s | %s | %s | %s |\n" \
+        "$user_colored" "$status_colored" "$ip_count_colored" "$today_colored" "$tu_colored"
+    printf "%s\n" "$border"
 done
+
+echo ""
+echo "Proses selesai."
+echo "TUKANGTAMBAL BAN"

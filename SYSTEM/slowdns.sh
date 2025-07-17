@@ -10,19 +10,6 @@ iptables -t nat -I PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5300
 netfilter-persistent save
 netfilter-persistent reload
 
-cd
-#delete directory
-rm -rf /etc/nsdomain
-rm nsdomain
-
-#input nameserver manual to cloudflare
-## read -rp "Masukkan domain: " -e domain
-
-## read -rp "Masukkan Subdomain: " -e sub
-## SUB_DOMAIN=${sub}.${domain}
-## NS_DOMAIN=slowdns-${SUB_DOMAIN}
-## echo $NS_DOMAIN > /root/nsdomain
-
 nameserver=$(cat /etc/nsdomain)
 apt update -y
 apt install -y python3 python3-dnslib net-tools
@@ -55,10 +42,10 @@ service sshd restart
 #konfigurasi slowdns
 rm -rf /etc/slowdns
 mkdir -m 777 /etc/slowdns
-wget -q -O /etc/slowdns/server.key "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/server.key"
-wget -q -O /etc/slowdns/server.pub "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/server.pub"
-wget -q -O /etc/slowdns/sldns-server "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/sldns-server"
-wget -q -O /etc/slowdns/sldns-client "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SLOWDNS/sldns-client"
+wget -q -O /etc/slowdns/server.key "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/SLOWDNS/server.key"
+wget -q -O /etc/slowdns/server.pub "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/SLOWDNS/server.pub"
+wget -q -O /etc/slowdns/sldns-server "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/SLOWDNS/dnstt-server"
+wget -q -O /etc/slowdns/sldns-client "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/SLOWDNS/dnstt-client"
 cd
 chmod +x /etc/slowdns/server.key
 chmod +x /etc/slowdns/server.pub
@@ -70,7 +57,7 @@ cd
 cat > /etc/systemd/system/client-sldns.service << END
 [Unit]
 Description=Client SlowDNS By Hokage
-Documentation=https://t.me/TUKANGTAMBALBAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]
@@ -90,8 +77,8 @@ cd
 #install server-sldns.service
 cat > /etc/systemd/system/server-sldns.service << END
 [Unit]
-Description=Server SlowDNS By TUKANGTAMBALBAN
-Documentation=https://t.me/TUKANGTAMBALBAN
+Description=Server SlowDNS By TUKANGTAMBAL BAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]

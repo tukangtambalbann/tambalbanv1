@@ -43,7 +43,7 @@ check_ip_and_get_info() {
 # =============================================
 
 # Ambil data dari GitHub dengan timeout
-permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
+permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com//tukangtambalbann/tambalban/refs/heads/main/daftar)
 
 # Validasi file permission
 if [ -z "$permission_file" ]; then
@@ -72,7 +72,7 @@ if check_ip_and_get_info "$IP_VPS"; then
     fi
 else
     echo -e "${RED}❌ IP tidak terdaftar!${NC}"
-    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @HokageLegend ✦ 」${NC}"
+    echo -e "➥ Hubungi admin ${CYAN}「 ✦ @TUKANGTAMBAL BAN ✦ 」${NC}"
     exit 1
 fi
 
@@ -133,7 +133,7 @@ show_options() {
 show_footer() {
     local author=$(cat "$AUTHOR_FILE" 2>/dev/null || echo "Unknown")
     echo -e " ${COLOR1}╔══════════════════════ ${WH}CREDIT BY${NC} ${COLOR1}═══════════════════╗${NC}"
-    echo -e " ${COLOR1}║                  ${WH}• TUKANGTAMBALBAN STORE •                ${COLOR1}║${NC}"
+    echo -e " ${COLOR1}║                  ${WH}• TUKANGTAMBAL BAN STORE •                ${COLOR1}║${NC}"
     echo -e " ${COLOR1}╚════════════════════════════════════════════════════╝${NC}"
 }
 
@@ -449,13 +449,13 @@ echo -e " $COLOR1║${NC} ${WH}[${COLOR1}01${WH}]${NC} ${COLOR1}• ${WH}CHANGE 
 echo -e " $COLOR1║${NC} ${WH}[${COLOR1}02${WH}]${NC} ${COLOR1}• ${WH}CHANGE BANNER       ${WH}${WH}[${COLOR1}07${WH}]${NC} ${COLOR1}• ${WH}FIX NGINX OFF      ${WH}$COLOR1║ $NC"
 echo -e " $COLOR1║${NC} ${WH}[${COLOR1}03${WH}]${NC} ${COLOR1}• ${WH}CHANGE THEMA SC     ${WH}${WH}[${COLOR1}08${WH}]${NC} ${COLOR1}• ${WH}CHECK CPU VPS      ${WH}$COLOR1║ $NC"
 echo -e " $COLOR1║${NC} ${WH}[${COLOR1}04${WH}]${NC} ${COLOR1}• ${WH}CHANGE CORE MENU    ${WH}${WH}[${COLOR1}09${WH}]${NC} ${COLOR1}• ${WH}CHECK PORT VPS     ${WH}$COLOR1║ $NC"
-echo -e " $COLOR1║${NC} ${WH}[${COLOR1}05${WH}]${NC} ${COLOR1}• ${WH}CLEAR RAM CACHE     ${WH}${WH}[${COLOR1}10${WH}]${NC} ${COLOR1}• ${WH}AUTO REBUILD VM    ${WH}$COLOR1║ $NC"
+echo -e " $COLOR1║${NC} ${WH}[${COLOR1}05${WH}]${NC} ${COLOR1}• ${WH}CLEAR RAM CACHE     ${WH}${WH}[${COLOR1}10${WH}]${NC} ${COLOR1}• ${WH}REBUILD VPS        ${WH}$COLOR1║ $NC"
 echo -e " $COLOR1╚══════════════════════════════════════════════════════╝${NC}"
 echo -e ""
 echo -ne " ${WH}Select menu ${COLOR1}: ${WH}"; read opt
 case $opt in
 01 |1) clear ; domain ;; 
-02 |2) clear ; rm -rf /etc/issue.net && nano /etc/issue.net && chmod +x /etc/issue.net ; reboot;; 
+02 |2) clear ; nano /etc/issue.net && chmod +x /etc/issue.net ;; 
 03 |3) clear ; m-theme ;; 
 04 |4) clear ; coremenu ;; 
 05 |5) clear ; clearcache ;; 
@@ -463,7 +463,7 @@ case $opt in
 06 |7) clear ; certv2ray ;; 
 07 |8) clear ; gotopp ;; 
 09 |9) clear ; check-port ;; 
-10 |10) clear ; wget -q https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/rebuildpepesmenu && bash rebuildpepesmenu ;; 
+10 |10) clear ; wget -q https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/install-ulang-vps && bash install-ulang-vps ;; 
 00 |0) clear ; menu ;; 
 *) echo -e "" ; echo "Anda salah tekan" ; sleep 1 ; system ;;
 esac

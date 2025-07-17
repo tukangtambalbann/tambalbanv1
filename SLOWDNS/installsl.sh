@@ -13,7 +13,7 @@ red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
 NC='\e[0m'
-echo "SLOWDNS BY TUKANGTAMBALBAN" | lolcat
+echo "SLOWDNS BY TUKANGTAMBAL BAN" | lolcat
 echo "Progress..." | lolcat
 sleep 3 
 cd
@@ -23,7 +23,7 @@ ns_domain_cloudflare() {
 	DOMAIN_PATH=$(cat /etc/xray/domain)
 	SUB=$(tr </dev/urandom -dc a-z0-9 | head -c7)
 	SUB_DOMAIN=${SUB}.hokagelegend.web.id
-	NS_DOMAIN=ns.${SUB_DOMAIN}
+	NS_DOMAIN=${SUB_DOMAIN}.sg-ujicoba.hokagelegend.web.id
 	CF_ID=faridaumiabi@gmail.com
         CF_KEY=ab8d0901acb186291e58f21359d07e7b847dc
 	set -euo pipefail

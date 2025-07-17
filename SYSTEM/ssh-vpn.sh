@@ -154,7 +154,7 @@ wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/tuka
 cd
 wget -O /usr/sbin/badvpn "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/badvpn" >/dev/null 2>&1
 chmod +x /usr/sbin/badvpn > /dev/null 2>&1
-wget -q -O /etc/systemd/system/badvpn1.service "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/YSTEM/badvpn1.service" >/dev/null 2>&1
+wget -q -O /etc/systemd/system/badvpn1.service "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/badvpn1.service" >/dev/null 2>&1
 wget -q -O /etc/systemd/system/badvpn2.service "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/badvpn2.service" >/dev/null 2>&1
 wget -q -O /etc/systemd/system/badvpn3.service "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/badvpn3.service" >/dev/null 2>&1
 systemctl disable badvpn1 
@@ -174,20 +174,16 @@ systemctl start badvpn3
 # setting port ssh
 cd
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 40000' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 51443' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 58080' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 200' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 22' /etc/ssh/sshd_config
+
 /etc/init.d/ssh restart
 
 echo "=== Install Dropbear ==="
 # install dropbear
-apt -y install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=149/DROPBEAR_PORT=143/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 50000 -p 109 -p 110 -p 69"/g' /etc/default/dropbear
+# INI BARIS BARU YANG SUDAH DIMODIFIKASI
+
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/ssh restart

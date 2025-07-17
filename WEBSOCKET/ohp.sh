@@ -1,6 +1,6 @@
 #!/bin/bash
 # Ohp Script
-# Mod By TUKANGTAMBALBAN
+# Mod By TUKANGTAMBAL BAN
 # ==========================================
 # Color
 RED='\033[0;31m'
@@ -26,7 +26,7 @@ cp ohpserver /usr/local/bin/ohpserver
 cat > /etc/systemd/system/ssh-ohp.service << END
 [Unit]
 Description=SSH OHP Redirection Service
-Documentation=https://t.me/TUKANGTAMBALBAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]
@@ -47,7 +47,7 @@ END
 cat > /etc/systemd/system/dropbear-ohp.service << END
 [Unit]]
 Description=Dropbear OHP Redirection Service
-Documentation=https://t.me/TUKANGTAMBALBAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]
@@ -68,7 +68,7 @@ END
 cat > /etc/systemd/system/openvpn-ohp.service << END
 [Unit]]
 Description=OpenVPN OHP Redirection Service
-Documentation=https://t.me/TUKANGTAMBALBAN
+Documentation=https://t.me/tukangtambalban
 After=network.target nss-lookup.target
 
 [Service]

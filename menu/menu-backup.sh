@@ -1,43 +1,68 @@
 #!/bin/bash
-# Mendefinisikan warna untuk pesan
-RED='\033[0;31m'
+DF='\e[39m'
+Bold='\e[1m'
+Blink='\e[5m'
+yell='\e[33m'
+red='\e[31m'
+green='\e[32m'
+blue='\e[34m'
+PURPLE='\e[35m'
+cyan='\e[36m'
+Lred='\e[91m'
+Lyellow='\e[93m'
+Lgreen='\e[92m'
+NC='\e[0m'
 GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BIRU='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-CYAN_BG='\033[46;1;97m'   # Latar belakang cyan cerah dengan teks putih
+ORANGE='\033[0;33m'
 LIGHT='\033[0;37m'
-PINK='\033[0;35m'
-ORANGE='\033[38;5;208m'
-PINK_BG='\033[45;1;97m'
-BIRU_BG='\033[44;1;97m'
-RED_BG='\033[41;1;97m'   # Latar belakang pink cerah dengan teks putih
-NC='\033[0m'
-INDIGO='\033[38;5;54m'
-TEAL='\033[38;5;30m'
-WHITE='\033[1;37m'
+grenbo="\e[92;1m"
+red() { echo -e "\\033[32;1m${*}\\033[0m"; }
+# Getting
+ipsaya=$(curl -sS ipv4.icanhazip.com)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com//tukangtambalbann/tambalban/refs/heads/main/daftar"
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e "\033[42m          404 NOT FOUND AUTOSCRIPT          \033[0m"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${GREEN}TELEGRAM${NC} https://t.me/tukangtambalban"
+	echo -e "      ${GREEN}WHATS APP ${NC} -"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    exit 0
+  fi
+}
+checking_sc
 clear
-
-#Banner Ssh
-  echo -e " ${CYAN}======================================${NC}"
-  echo -e " ${BIRU_BG}               BY SFTP               ${NC}"
-  echo -e " ${CYAN}======================================${NC}"
-  echo -e "  1.) Manual Backup VPS Data "  
-  echo -e "  2.) Restore VPS Data Via SFTP   " 
-  echo -e " ${CYAN}======================================${NC}"
-  echo -e "  x.) Back to Menu       "
-  echo -e " ${CYAN}======================================${NC}"
-  echo -e " "
-
-read -p "  ➣ Your Choice: " NB
-case $NB in
-      1) echo -e "${TEAL} ➣ Service Backup selected ${NC}"  
-         manual-backup
-         ;;
-      2) echo -e "${TEAL} ➣ Service Restore selected ${NC}"  
-         manual-restore
-         ;;
-      x) clear ; menu ;;
-      *) phreakers-fitur ;;
+MYIP=$(wget -qO- ipinfo.io/ip);
+clear 
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "             • Backup Menu •         "
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "" 
+echo -e " [\e[36m•1\e[0m] Backup VPS Data"
+echo -e " [\e[36m•2\e[0m] Restore VPS Data"
+echo -e " [\e[36m•3\e[0m] Jadwal Backup"
+echo -e "" 
+echo -e " [\e[31m•0\e[0m] \e[31mBack To Menu\033[0m"
+echo -e "" 
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e ""
+read -p " Select menu :  "  opt
+echo -e   ""
+case $opt in
+01 | 1) clear ; backup ;;
+02 | 2) clear ; restore ;;
+02 | 3) clear ; atur-backup ;;
+00 | 0) clear ; menu ;;
+*) clear ; menu-backup ;;
 esac

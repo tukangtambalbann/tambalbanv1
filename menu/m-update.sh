@@ -63,9 +63,11 @@ rm -rf insshws
 rm -rf trojan-online
 rm -rf online
 rm -rf ceklimit
-rm -rf atur-backup
-rm -rf online-trojan
 rm -rf online-xray
+rm -rf online-trojan
+rm -rf atur-backup
+rm -rf backup
+rm -rf restore
 
 fun_bar() {
     CMD[0]="$1"
@@ -128,9 +130,12 @@ wget -q -O /usr/bin/trial "https://raw.githubusercontent.com/tukangtambalbann/ta
 wget -q -O /usr/bin/trojan-online "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/trojan-online" && chmod +x /usr/bin/trojan-online
 wget -q -O /usr/bin/ceklimit "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/ceklimit" && chmod +x /usr/bin/ceklimit
 wget -q -O /usr/bin/online "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online" && chmod +x /usr/bin/online
-wget -q -O /usr/bin/atur-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/atur-backup" && chmod +x /usr/bin/atur-backup
-wget -q -O /usr/bin/online-trojan "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online-trojan" && chmod +x /usr/bin/online-trojan
-wget -q -O /usr/bin/online-xray "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online-xray" && chmod +x /usr/bin/online-xray
+wget -q -O /usr/bin/atur-backup "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/atur-backup" && chmod +x /usr/bin/atur-backup
+wget -q -O /usr/bin/online-xray "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/online-xray" && chmod +x /usr/bin/online-xray
+wget -q -O /usr/bin/online-trojan "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/online-trojan" && chmod +x /usr/bin/online-trojan
+wget -q -O /usr/bin/backup "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/backup" && chmod +x /usr/bin/backup
+wget -q -O /usr/bin/restore "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/restore" && chmod +x /usr/bin/restore
+
 
 chmod +x m-tcp
 chmod +x m-theme
@@ -179,9 +184,10 @@ chmod +x insshws
 chmod +x trojan-online
 chmod +x ceklimit
 chmod +x online
-chmod +x atur-backup
-chmod +x online-trojan
 chmod +x online-xray
+chmod +x online-trojan
+chmod +x backup
+chmod +x restore
 clear
 
 }

@@ -1,4 +1,5 @@
 #!/bin/bash
+# My Telegram : https://t.me/tukangtambalban
 # ==========================================
 # Color
 RED='\033[0;31m'
@@ -6,54 +7,161 @@ NC='\033[0m'
 GREEN='\033[0;32m'
 ORANGE='\033[0;33m'
 BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-LIGHT='\033[0;37m'
-CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
-KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
-export TIME="10"
-export URL="https://api.telegram.org/bot$KEY/sendMessage"
-clear
-function notif_restore() {
-    green "Notif AddHost Tele"
-    sleep 2
-    CHATID="$CHATID"
-KEY="$KEY"
-TIME="$TIME"
-URL="$URL"
-TEXT="
-<code>◇━━━━━━━━━━━━━━◇</code>
-<b>  ⚠️ RESTORE NOTIF⚠️</b>
-<b>     Detail Restore VPS</b>
-<code>◇━━━━━━━━━━━━━━◇</code>
-<code>Restore Vps Done</code>
-<code>◇━━━━━━━━━━━━━━◇</code>
-<code>BY BOT : https://t.me/TUKANGTAMBALBAN</code>
-"
-
-curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
-}
 # ==========================================
-# Getting
-clear
-echo "Silahkan Masukin Link Backupnya"
-read -rp "Link File: " -e url
-wget -O backup.zip "$url"
-unzip backup.zip
-rm -f backup.zip
-sleep 1
-echo Start Restore
-cd /root/backup
-cp passwd /etc/
-cp group /etc/
-cp shadow /etc/
-cp gshadow /etc/
-cp -r kyt /var/lib/
-cp -r xray /etc/
-cp -r html /var/www/
-cp crontab /etc/
 
-notif_restore
-rm -rf /root/backup
-rm -f backup.zip
-echo ""
+# --- Fungsi untuk menampilkan spinner ---
+spinner() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='|/-\'
+    while ps -p $pid > /dev/null; do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
+}
+
+# --- Fungsi untuk menampilkan menu dan mendapatkan sumber backup ---
+get_backup_source() {
+    while true; do
+        clear
+        echo -e "${GREEN}=============================================${NC}"
+        echo -e "${GREEN}          SCRIPT RESTORE VPS DATA            ${NC}"
+        echo -e "${GREEN}=============================================${NC}"
+        echo ""
+        echo -e "${ORANGE}Pilih sumber file backup:${NC}"
+        echo " 1. Pindai & pilih file dari folder /root/"
+        echo " 2. Masukkan path file secara manual"
+        echo " 3. Restore dari link Google Drive"
+        echo " 0. Keluar"
+        echo ""
+        read -p "Pilih opsi [0-3]: " choice
+
+        case $choice in
+            1)
+                echo "Mencari file .zip di /root/..."
+                mapfile -t files < <(find /root -maxdepth 1 -type f -name "*.zip")
+                if [ ${#files[@]} -eq 0 ]; then
+                    echo -e "${RED}Tidak ada file backup (.zip) yang ditemukan di /root/.${NC}"; sleep 2; continue
+                fi
+                echo "Pilih file backup yang akan di-restore:"; select file in "${files[@]}"; do
+                    if [ -n "$file" ]; then backup_file="$file"; return; else echo -e "${RED}Pilihan tidak valid.${NC}"; fi
+                done ;;
+            2)
+                read -rp "Masukkan path lengkap ke file backup (.zip): " manual_path
+                if [ ! -f "$manual_path" ]; then echo -e "${RED}Error: File '$manual_path' tidak ditemukan!${NC}"; sleep 2; else backup_file="$manual_path"; return; fi ;;
+            3)
+                echo -e "${BLUE}Memeriksa dan menginstall dependensi (gdown)...${NC}"
+                if ! command -v pip3 &> /dev/null; then apt-get install python3-pip -y > /dev/null 2>&1; fi
+                if ! command -v gdown &> /dev/null; then pip3 install gdown > /dev/null 2>&1; fi
+                read -rp "Masukkan link Google Drive: " gdrive_link
+                echo -e "${BLUE}Mendownload dari Google Drive... Ini mungkin butuh waktu.${NC}"
+                DOWNLOADED_FILE="/root/backup_from_gdrive_$(date +%s).zip"
+                gdown --output "$DOWNLOADED_FILE" "$gdrive_link"; if [ $? -eq 0 ]; then backup_file="$DOWNLOADED_FILE"; return; else echo -e "${RED}Gagal mendownload file.${NC}"; sleep 2; fi ;;
+            0)
+                echo "Keluar dari skrip."; exit 0 ;;
+            *)
+                echo -e "${RED}Pilihan tidak valid.${NC}"; sleep 2 ;;
+        esac
+    done
+}
+
+# --- Fungsi untuk mendapatkan kredensial bot Telegram ---
+get_telegram_credentials() {
+    echo -e "${ORANGE}Konfigurasi Notifikasi Telegram...${NC}"
+    if [ -f "/usr/bin/token" ] && [ -f "/usr/bin/idchat" ]; then
+        read -p "Konfigurasi bot terdeteksi. Gunakan yang sudah ada? (y/n): " use_existing
+        if [[ "$use_existing" == "y" || "$use_existing" == "Y" ]]; then
+            KEY=$(cat /usr/bin/token)
+            CHATID=$(cat /usr/bin/idchat)
+            echo -e "${GREEN}Menggunakan konfigurasi bot yang ada.${NC}"
+            return
+        fi
+    fi
+    echo "Masukkan detail bot Telegram untuk notifikasi akhir."
+    read -rp "Masukkan KEY Bot: " KEY
+    read -rp "Masukkan CHAT ID: " CHATID
+    echo "$KEY" > /usr/bin/token
+    echo "$CHATID" > /usr/bin/idchat
+    echo -e "${GREEN}Konfigurasi bot telah disimpan di /usr/bin/.${NC}"
+}
+
+# --- Fungsi untuk mengirim notifikasi restore ---
+send_restore_notification() {
+    echo -e "${BLUE}Mengirim notifikasi restore ke Telegram...${NC}"
+    RESTORE_TIME=$(date '+%d %B %Y, %H:%M:%S')
+    IP_VPS=$(curl -sS ipv4.icanhazip.com)
+    TEXT_RESTORE="
+<b>✅ Restore Berhasil!</b>
+━━━━━━━━━━━━━━━━━━
+<i>Proses restore data pada VPS Anda telah selesai.</i>
+
+🖥️ <b>VPS:</b> <code>${IP_VPS}</code>
+⏰ <b>Waktu:</b> <code>${RESTORE_TIME} WIB</code>
+
+<i>Silakan periksa layanan Anda dan reboot jika diperlukan.</i>
+"
+    (curl -s --max-time 10 -d "chat_id=${CHATID}&disable_web_page_preview=1&text=${TEXT_RESTORE}&parse_mode=html" "https://api.telegram.org/bot${KEY}/sendMessage" > /dev/null 2>&1) &
+    pid=$!
+    spinner $pid
+    wait $pid
+    if [ $? -eq 0 ]; then echo -e "${GREEN}Notifikasi restore berhasil dikirim.${NC}"; else echo -e "${RED}Gagal mengirim notifikasi restore.${NC}"; fi
+}
+
+
+# ================================================================= #
+# ---                         SKRIP UTAMA                         --- #
+# ================================================================= #
+
+# Panggil fungsi menu untuk mendapatkan file backup
+get_backup_source
+if [ -z "$backup_file" ]; then echo -e "${RED}Tidak ada file backup yang dipilih. Proses dibatalkan.${NC}"; exit 1; fi
+
+# Panggil fungsi untuk mendapatkan kredensial bot
+get_telegram_credentials
+if [ -z "$KEY" ] || [ -z "$CHATID" ]; then echo -e "${RED}KEY atau CHATID tidak valid. Notifikasi tidak akan dikirim.${NC}"; fi
+
+echo -e "${GREEN}File yang akan direstore: $backup_file${NC}"
+echo -e "${BLUE}Memulai proses restore dalam 3 detik...${NC}"
+sleep 3
+
+#--- Cek dan install unzip ---
+if ! command -v unzip &> /dev/null; then echo -e "${ORANGE}unzip tidak terinstall. Menginstall...${NC}"; apt-get update && apt-get install unzip -y; fi
+
+#--- Buat backup pengaman ---
+PRE_RESTORE_DIR="/root/pre-restore-backup_$(date +%F)"; echo -e "${BLUE}Membuat backup pengaman ke: ${PRE_RESTORE_DIR}${NC}"; mkdir -p "$PRE_RESTORE_DIR"
+cp -r /etc/passwd /etc/group /etc/shadow /etc/gshadow /etc/crontab "$PRE_RESTORE_DIR/" 2>/dev/null
+cp -r /var/lib/kyt/ /etc/xray /var/www/html/ "$PRE_RESTORE_DIR/" 2>/dev/null
+echo -e "${GREEN}Backup pengaman selesai.${NC}"; sleep 1
+
+#--- Ekstrak file backup ---
+RESTORE_DIR="/root/restore_temp_$(date +%s)"; mkdir -p "$RESTORE_DIR"
+echo -e "${BLUE}Mengekstrak file backup...${NC}"; unzip -q "$backup_file" -d "$RESTORE_DIR"
+if [ $? -ne 0 ]; then echo -e "${RED}Error: Gagal mengekstrak file backup.${NC}"; rm -rf "$RESTORE_DIR"; exit 1; fi
+
+#--- Proses Restore ---
+cd "$RESTORE_DIR" || exit
+echo -e "${BLUE}Memulai proses restore data...${NC}";
+cp -f passwd /etc/passwd; cp -f group /etc/group; cp -f shadow /etc/shadow; cp -f gshadow /etc/gshadow; cp -f crontab /etc/crontab
+if [ -d "kyt" ]; then rsync -a --progress kyt/ /var/lib/kyt/; fi
+if [ -d "xray" ]; then rsync -a --progress xray/ /etc/xray/; fi
+if [ -d "html" ]; then rsync -a --progress html/ /var/www/html/; fi
+echo -e "${GREEN}Restore data inti selesai.${NC}"
+
+#--- Atur izin file ---
+echo -e "${BLUE}Mengatur izin file keamanan...${NC}"; chmod 644 /etc/passwd; chmod 644 /etc/group; chmod 600 /etc/shadow; chmod 600 /etc/gshadow
+
+#--- Membersihkan file sementara ---
+echo -e "${BLUE}Membersihkan file sementara...${NC}"; cd /root; rm -rf "$RESTORE_DIR"
+if [[ "$backup_file" == *"/root/backup_from_gdrive_"* ]]; then rm -f "$backup_file"; fi
+
+#--- Kirim Notifikasi Telegram ---
+send_restore_notification
+
+#--- Selesai dan Reboot ---
+echo ""; echo -e "${GREEN}=============================================${NC}"; echo -e "${GREEN}      PROSES RESTORE TELAH SELESAI           ${NC}"; echo -e "${GREEN}=============================================${NC}"; echo ""
+echo -e "${ORANGE}Sangat disarankan untuk me-reboot VPS Anda sekarang.${NC}"; read -p "Reboot VPS sekarang? (y/n): " reboot_choice
+if [[ "$reboot_choice" == "y" || "$reboot_choice" == "Y" ]]; then echo -e "${BLUE}Rebooting...${NC}"; sleep 3; reboot; else echo -e "${GREEN}Selesai. Silakan reboot secara manual nanti.${NC}"; fi

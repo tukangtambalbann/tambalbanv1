@@ -5,10 +5,10 @@ wget -q -O /etc/systemd/system/limitvmess.service "${REPO}TOOLS/limitvmess.servi
 wget -q -O /etc/systemd/system/limitvless.service "${REPO}TOOLS/limitvless.service" && chmod +x limitvless.service >/dev/null 2>&1
 wget -q -O /etc/systemd/system/limittrojan.service "${REPO}TOOLS/limittrojan.service" && chmod +x limittrojan.service >/dev/null 2>&1
 wget -q -O /etc/systemd/system/limitshadowsocks.service "${REPO}TOOLS/limitshadowsocks.service" && chmod +x limitshadowsocks.service >/dev/null 2>&1
-wget -q -O /etc/xray/limit.vmess "${REPO}bin/vmess" >/dev/null 2>&1
-wget -q -O /etc/xray/limit.vless "${REPO}bin/vless" >/dev/null 2>&1
-wget -q -O /etc/xray/limit.trojan "${REPO}bin/trojan" >/dev/null 2>&1
-wget -q -O /etc/xray/limit.shadowsocks "${REPO}bin/shadowsocks" >/dev/null 2>&1
+wget -q -O /etc/xray/limit.vmess "${REPO}TOOLS/vmess" >/dev/null 2>&1
+wget -q -O /etc/xray/limit.vless "${REPO}TOOLS/vless" >/dev/null 2>&1
+wget -q -O /etc/xray/limit.trojan "${REPO}TOOLS/trojan" >/dev/null 2>&1
+wget -q -O /etc/xray/limit.shadowsocks "${REPO}TOOLS/shadowsocks" >/dev/null 2>&1
 chmod +x /etc/xray/limit.vmess
 chmod +x /etc/xray/limit.vless
 chmod +x /etc/xray/limit.trojan
@@ -20,7 +20,7 @@ systemctl enable --now limittrojan
 systemctl enable --now limitshadowsocks
 
 cd
-wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/SYSTEM/limit-ip"
+wget -q -O /usr/bin/limit-ip "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/TOOLS/limit-ip"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip

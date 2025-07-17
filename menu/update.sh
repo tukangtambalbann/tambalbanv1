@@ -44,7 +44,7 @@ check_ip_and_get_info() {
 # =============================================
 
 # Ambil data dari GitHub dengan timeout
-permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com/tukangtambalbann/tambalban/refs/heads/main/daftar)
+permission_file=$(curl -s --connect-timeout 10 https://raw.githubusercontent.com//tukangtambalbann/tambalban/refs/heads/main/daftar)
 
 # Validasi file permission
 if [ -z "$permission_file" ]; then
@@ -74,7 +74,7 @@ if check_ip_and_get_info "$IP_VPS"; then
     fi
 else
     echo -e "${RED}❌ IP tidak terdaftar!${NC}"
-    echo -e "➥ Hubungi admin ${CYAN}「 ✦ TUKANGTAMBALBAN ✦ 」${NC}"
+    echo -e "➥ Hubungi admin ${CYAN}「 ✦ TUKANGTAMBAL BAN ✦ 」${NC}"
     exit 1
 fi
 
@@ -114,7 +114,7 @@ wget -q -O /usr/bin/m-update "https://raw.githubusercontent.com/tukangtambalbann
 wget -q -O /usr/bin/tendang "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/tendang.sh" && chmod +x /usr/bin/tendang
 wget -q -O /usr/bin/check-port "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/check-port.sh" && chmod +x /usr/bin/check-port
 
-wget -q -O /usr/bin/menu-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/menu-backup.sh" && chmod +x /usr/bin/menu-backup
+wget -q -O /usr/bin/menu-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/menu-backup" && chmod +x /usr/bin/menu-backup
 wget -q -O /usr/bin/auto-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/auto-backup.sh" && chmod +x /usr/bin/auto-backup
 wget -q -O /usr/bin/auto-restore "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/auto-restore.sh" && chmod +x /usr/bin/auto-restore
 wget -q -O /usr/bin/manual-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/manual-backup.sh" && chmod +x /usr/bin/manual-backup
@@ -129,10 +129,11 @@ wget -q -O /usr/bin/trial "https://raw.githubusercontent.com/tukangtambalbann/ta
 wget -q -O /usr/bin/online "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online" && chmod +x /usr/bin/online
 wget -q -O /usr/bin/trojan-online "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/trojan-online" && chmod +x /usr/bin/trojan-online
 wget -q -O /usr/bin/ceklimit "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/ceklimit" && chmod +x /usr/bin/ceklimit
-wget -q -O /usr/bin/atur-backup "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/atur-backup" && chmod +x /usr/bin/atur-backup
-wget -q -O /usr/bin/online-trojan "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online-trojan" && chmod +x /usr/bin/online-trojan
-wget -q -O /usr/bin/online-xray "https://raw.githubusercontent.com/tukangtambalbann/tambalbanv1/refs/heads/main/menu/online-xray" && chmod +x /usr/bin/online-xray
-
+wget -q -O /usr/bin/atur-backup "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/atur-backup" && chmod +x /usr/bin/atur-backup
+wget -q -O /usr/bin/online-xray "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/online-xray" && chmod +x /usr/bin/online-xray
+wget -q -O /usr/bin/online-trojan "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/online-trojan" && chmod +x /usr/bin/online-trojan
+wget -q -O /usr/bin/backup "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/backup" && chmod +x /usr/bin/backup
+wget -q -O /usr/bin/restore "https://github.com/tukangtambalbann/tambalbanv1/raw/refs/heads/main/menu/restore" && chmod +x /usr/bin/restore
 
 clear
 echo -e ""
